@@ -11,7 +11,7 @@
 #include "vec.h"
 #undef T
 
-typedef void *pvoid;
+typedef void *pvoid;    // Без _t!
 #define T pvoid
 #include "vec.h"
 #undef T
@@ -135,7 +135,8 @@ ARR(T) *arr = ARR_CREATE(T) (0);
 
 ### Список ОТД
 
-- `vec_t` (`vec.h`) - вектор, саморасширяющийся динамический массив.
+- [vec.h](./inc/vec.h) - вектор, саморасширяющийся динамический массив.
+- [slist.h](./inc/slist.h) - односвязанный список.
 
 ## Контакты
 
