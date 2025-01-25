@@ -12,13 +12,13 @@ typedef string_t *pstring;
 
 static snode_pstring_t *a, *b, *c, *head;
 
-void setup_nodes(void) {
+static void setup_nodes(void) {
     a = slist_pstring_create("a");
     b = slist_pstring_create("b");
     c = slist_pstring_create("c");
 }
 
-void setup_slist(void) {
+static void setup_slist(void) {
     a = slist_pstring_create("a");
     b = slist_pstring_create("b");
     c = slist_pstring_create("c");
@@ -26,7 +26,7 @@ void setup_slist(void) {
     head = slist_pstring_concat(a, head);
 }
 
-void teardown_nodes(void) {
+static void teardown_nodes(void) {
     free(a);
     a = NULL;
     free(b);
@@ -35,7 +35,7 @@ void teardown_nodes(void) {
     c = NULL;
 }
 
-void teardown_slist(void) {
+static void teardown_slist(void) {
     slist_pstring_destroy(head);
 }
 
