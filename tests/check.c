@@ -5,6 +5,7 @@
 #include "check_slist.h"
 #include "check_dlist.h"
 #include "check_maps.h"
+#include "check_stacks.h"
 
 int main(void) {
     SRunner *runner = srunner_create(NULL);
@@ -15,6 +16,8 @@ int main(void) {
     srunner_add_suite(runner, check_avltree_suite());
     srunner_add_suite(runner, check_shmap_suite());
     srunner_add_suite(runner, check_hmap_suite());
+    srunner_add_suite(runner, check_astack_suite());
+    srunner_add_suite(runner, check_lstack_suite());
 
     srunner_run_all(runner, CK_NORMAL);
     const int number_failed = srunner_ntests_failed(runner);
