@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "err.h"
+#include "hash.h"
 
 #define SHMAP_DEFAULT_INITIAL_CAPACITY 16
 #define SHMAP_GROW_FACTOR 2

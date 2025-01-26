@@ -2,6 +2,8 @@
 
 #include "map.h"
 #include "bstree.h"
+#include "hash.h"
+#include "hmap.h"
 #include "shmap.h"
 
 
@@ -14,23 +16,16 @@
 static void *map;
 
 
-static hash_t djb2(const hash_t salt, mut_mkey_t key) {
-    hash_t hash = salt;
-
-    unsigned char c;
-    while ((c = *key++))
-        hash = (hash << 5) + hash + c;  // hash * 33 + c
-
-    return hash;
-}
-
-
 static void setup_bstree(void) {
     map = map_new(BinarySearchTree);
 }
 
 static void setup_shmap(void) {
     map = map_new(SimpleHashMap, 0, djb2);
+}
+
+static void setup_hmap(void) {
+    map = map_new(HashMap, djb2);
 }
 
 static void teardown_map(void) {
@@ -184,5 +179,50 @@ Suite *check_shmap_suite(void) {
     suite_add_tcase(suite, check_shmap_insert_many_and_lookup());
     suite_add_tcase(suite, check_shmap_insert_many_and_remove_all());
     suite_add_tcase(suite, check_shmap_insert_update());
+    return suite;
+}
+
+TCase *check_hmap_insert_and_lookup(void) {
+    TCase *tc = tcase_create("check_hmap_insert_and_lookup");
+    tcase_add_unchecked_fixture(tc, setup_hmap, teardown_map);
+    tcase_add_test(tc, test_map_insert_and_lookup);
+    return tc;
+}
+
+TCase *check_hmap_lookup_not_existing(void) {
+    TCase *tc = tcase_create("check_hmap_lookup_not_existing");
+    tcase_add_unchecked_fixture(tc, setup_hmap, teardown_map);
+    tcase_add_test(tc, test_map_lookup_not_existing);
+    return tc;
+}
+
+TCase *check_hmap_insert_many_and_lookup(void) {
+    TCase *tc = tcase_create("check_hmap_insert_many_and_lookup");
+    tcase_add_unchecked_fixture(tc, setup_hmap, teardown_map);
+    tcase_add_test(tc, test_map_insert_many_and_lookup);
+    return tc;
+}
+
+TCase *check_hmap_insert_many_and_remove_all(void) {
+    TCase *tc = tcase_create("check_hmap_insert_many_and_remove_all");
+    tcase_add_unchecked_fixture(tc, setup_hmap, teardown_map);
+    tcase_add_test(tc, test_map_insert_many_and_remove_all);
+    return tc;
+}
+
+TCase *check_hmap_insert_update(void) {
+    TCase *tc = tcase_create("check_hmap_insert_update");
+    tcase_add_unchecked_fixture(tc, setup_hmap, teardown_map);
+    tcase_add_test(tc, test_map_insert_update);
+    return tc;
+}
+
+Suite *check_hmap_suite(void) {
+    Suite *suite = suite_create("check_hmap");
+    suite_add_tcase(suite, check_hmap_insert_and_lookup());
+    suite_add_tcase(suite, check_hmap_lookup_not_existing());
+    suite_add_tcase(suite, check_hmap_insert_many_and_lookup());
+    suite_add_tcase(suite, check_hmap_insert_many_and_remove_all());
+    suite_add_tcase(suite, check_hmap_insert_update());
     return suite;
 }

@@ -13,6 +13,7 @@ int main(void) {
     srunner_add_suite(runner, check_dlist_suite());
     srunner_add_suite(runner, check_bstree_suite());
     srunner_add_suite(runner, check_shmap_suite());
+    srunner_add_suite(runner, check_hmap_suite());
 
     srunner_run_all(runner, CK_NORMAL);
     const int number_failed = srunner_ntests_failed(runner);

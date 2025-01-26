@@ -11,9 +11,6 @@
 
 #include "map.h"
 
-typedef unsigned hash_t;
-typedef hash_t (*hash_func_t)(hash_t seed, const void *key);
-
 
 extern const imap_t SimpleHashMapClass;
 // map_new(SimpleHashMap, capacity, hash_function)
