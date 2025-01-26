@@ -14,7 +14,7 @@ void *map_new(const imap_t *class, ...) {
     *(const imap_t **)p = class;
     if (class->ctor) {
         va_list ap;
-        va_start(ap, class->ctor);
+        va_start(ap, class);
         p = class->ctor(p, &ap);
         va_end(ap);
     }

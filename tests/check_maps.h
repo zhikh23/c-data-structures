@@ -5,4 +5,6 @@
 
 Suite *check_bstree_suite(void);
 
+Suite *check_shmap_suite(void);
+
 #endif // CHECK_MAPS_H
