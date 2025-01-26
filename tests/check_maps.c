@@ -13,7 +13,7 @@ static imap_t *map;
 
 
 static void setup_bstree(void) {
-    map = map_new(BSTree);
+    map = map_new(BinarySearchTree);
 }
 
 static void teardown_map(void) {

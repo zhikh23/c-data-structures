@@ -185,15 +185,16 @@ static bstree_node_t *bstree_node_remove(bstree_node_t *self, const char *key) {
     //  right branch
 
     const bstree_node_t *min = bstree_min_node(self->right);
-    self->data = min->data;
-    self->right = bstree_node_remove(min->right, min->data.key);
+    self->data.key = strdup(min->data.key);
+    self->data.value = min->data.value;
+    self->right = bstree_node_remove(self->right, min->data.key);
     return self;
 }
 
 int bstree_remove(void *_self, const mkey_t key) {
     bstree_t *self = _self;
 
-    if (!bstree_lookup(_self, key).ok)
+    if (bstree_lookup(_self, key).ok == 0)
         return 0;
 
     self->root = bstree_node_remove(self->root, key);
@@ -201,7 +202,7 @@ int bstree_remove(void *_self, const mkey_t key) {
     return 1;
 }
 
-const imap_t BSTreeClass = {
+const imap_t BinarySearchTreeClass = {
     .size   = sizeof(bstree_t),
     .ctor   = bstree_ctor,
     .dtor   = bstree_destroy,
