@@ -137,7 +137,7 @@ int hmap_grow(hmap_t *self) {
     const size_t old_capacity = HMAP_BUCKETS(self->B);
 
     self->B++;
-    void *tmp = malloc(HMAP_BUCKETS(self->B) * sizeof(void *));
+    void *tmp = calloc(HMAP_BUCKETS(self->B), sizeof(hmap_bucket_t));
     if (tmp == NULL)
         return ENOMEM;
     self->buckets = tmp;
@@ -180,6 +180,7 @@ void hmap_insert(void *_self, mkey_t key, const mval_t value) {
 
     const hash_t hob = hmap_hob_hash(self, key);
     unsigned char i;
+again:
     for (i = 0; i < bucket->len; i++) {
         if (bucket->hob[i] == hob && STR_EQ(bucket->keys[i], key)) {
             bucket->vals[i] = value;    // update existing value.
@@ -190,9 +191,9 @@ void hmap_insert(void *_self, mkey_t key, const mval_t value) {
     if (i == HMAP_BUCKET_SIZE) {
         if (bucket->next == NULL) {
             bucket->next = calloc(1, sizeof(hmap_bucket_t));
-            bucket = bucket->next;
-            i = 0;
         }
+        bucket = bucket->next;
+        goto again;
     }
 
     bucket->hob[i] = hob;
